@@ -1,0 +1,14 @@
+<h1>Matrix Multiplication Result</h1>
+
+<% if @result_matrix.include?("Error:") %>
+  <%= @result_matrix %>
+<% else %>
+  <% rows = @result_matrix.split(';').map { |row| row.split(',').map(&:to_i) } %>
+  <% rows.each do |row| %>
+    <% row.each do |element| %>
+      <%= text_field_tag 'result_matrix[]', element, readonly: true, size: 7 %>
+      <%= ' ' unless element == row.last %>
+    <% end %>
+    <br>
+  <% end %>
+<% end %>

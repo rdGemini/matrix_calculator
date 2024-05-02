@@ -1,0 +1,70 @@
+<h1>Matrix Multiplication Calculator</h1>
+<%= form_tag(matrix_calculator_multiply_path, method: :post, id: 'matrix-form') do %>
+  <%= csrf_meta_tags %>
+  <label for="matrix-a-size">Enter size of Matrix A (rows * columns):</label><br>
+  <input type="number" id="matrix-a-rows" name="matrix_a[rows]" min="1" required> *
+  <input type="number" id="matrix-a-columns" name="matrix_a[columns]" min="1" required><br><br>
+  
+  <div id="matrix-a-input"></div><br>
+  
+  <label for="matrix-b-size">Enter size of Matrix B (rows * columns):</label><br>
+  <input type="number" id="matrix-b-rows" name="matrix_b[rows]" min="1" required> *
+  <input type="number" id="matrix-b-columns" name="matrix_b[columns]" min="1" required><br><br>
+  
+  <div id="matrix-b-input"></div><br>
+  
+  <%= submit_tag 'Multiply Matrices' %>
+</form>
+<% end %>
+
+<script>
+  // Function to create input fields dynamically based on matrix size
+  function createMatrixInputs(matrixId, rows, columns) {
+    let matrixInputDiv = document.getElementById(matrixId);
+    matrixInputDiv.innerHTML = ""; // Clear previous inputs
+    
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        let input = document.createElement("input");
+        input.type = "number";
+        input.name = `matrix_${matrixId.replace('matrix-', '').replace('-input', '')}[${i}][${j}]`;
+        input.min = "0";
+        input.required = true;
+        matrixInputDiv.appendChild(input);
+        matrixInputDiv.appendChild(document.createTextNode(" "));
+      }
+      matrixInputDiv.appendChild(document.createElement("br"));
+    }
+  }
+
+  // Event listener to create inputs when matrix size is changed
+  document.getElementById('matrix-a-rows').addEventListener('change', function() {
+    let rows = parseInt(this.value);
+    let columns = parseInt(document.getElementById('matrix-a-columns').value);
+    createMatrixInputs('matrix-a-input', rows, columns);
+  });
+
+  document.getElementById('matrix-a-columns').addEventListener('change', function() {
+    let rows = parseInt(document.getElementById('matrix-a-rows').value);
+    let columns = parseInt(this.value);
+    createMatrixInputs('matrix-a-input', rows, columns);
+  });
+
+  document.getElementById('matrix-b-rows').addEventListener('change', function() {
+    let rows = parseInt(this.value);
+    let columns = parseInt(document.getElementById('matrix-b-columns').value);
+    createMatrixInputs('matrix-b-input', rows, columns);
+  });
+
+  document.getElementById('matrix-b-columns').addEventListener('change', function() {
+    let rows = parseInt(document.getElementById('matrix-b-rows').value);
+    let columns = parseInt(this.value);
+    createMatrixInputs('matrix-b-input', rows, columns);
+  });
+
+  // Initial creation of inputs based on default values
+  createMatrixInputs('matrix-a-input', parseInt(document.getElementById('matrix-a-rows').value), parseInt(document.getElementById('matrix-a-columns').value));
+
+  createMatrixInputs('matrix-b-input', parseInt(document.getElementById('matrix-b-rows').value), parseInt(document.getElementById('matrix-b-columns').value));
+
+</script>

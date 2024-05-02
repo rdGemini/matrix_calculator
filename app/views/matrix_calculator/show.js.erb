@@ -1,0 +1,16 @@
+// Clear previous result
+document.getElementById('result').innerHTML = "";
+
+// Create text boxes for each element of the result matrix with spaces between elements and new lines between rows
+<% @result_matrix.each_with_index do |row, i| %>
+  <% row.each_with_index do |element, j| %>
+    var input = document.createElement("input");
+    input.type = "text";
+    input.value = "<%= element %>";
+    input.name = "result_matrix[][#{i}][#{j}]";
+    document.getElementById('result').appendChild(input);
+    document.getElementById('result').appendChild(document.createTextNode(" "));
+  <% end %>
+  document.getElementById('result').appendChild(document.createElement("br"));
+  document.getElementById('result').appendChild(document.createTextNode("\n"));
+<% end %>
